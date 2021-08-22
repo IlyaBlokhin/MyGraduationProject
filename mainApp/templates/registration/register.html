@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block Title%}Registration{% endblock Title%}
+{% block content%}
+<style>
+    body {
+        display: flex;
+        align-items: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+        flex-direction: column;
+    }
+
+    .form-signin {
+        width: 100%;
+        max-width: 330px;
+        padding: 15px;
+        margin: auto;
+    }
+
+    .form-signin .form-floating:focus-within {
+        z-index: 2;
+    }
+
+    .form-signin input[type="username"] {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .form-signin input[type="password"] {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+</style>
+
+<div class="text-center">
+    <main class="form-signin mt-5">
+        <form method="post" action="{% url 'user_registration' %}">
+            {% csrf_token %}
+            <h1 class="h3 mb-3 fw-normal">Registration</h1>
+
+            <div class="form-floating">
+
+                <input type="text" class="form-control" id="floatingInput" placeholder="username" name="username" value="{{ user_form.username.value }}">
+                <label for="floatingInput">Username</label>
+                <span class="error">{{ user_form.errors.username.as_text }}</span>
+
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword1" placeholder="Password"
+                       name="password1" value="" style="margin-bottom: 0">
+                <label for="floatingPassword1">Password</label>
+                <span class="errors">{{ user_form.errors.password1 }}</span>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword2" placeholder="Password"
+                       name="password2" value="">
+                <label for="floatingPassword2">Repeat password</label>
+                <span class="errors">{{ user_form.errors.password2 }}</span>
+            </div>
+
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+            <input type="hidden" name="next" value="{{ next }}"/>
+        </form>
+        {# Assumes you setup the password_reset view in your URLconf #}
+
+    </main>
+</div>
+
+
+{% endblock content %}

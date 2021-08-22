@@ -1,0 +1,21 @@
+<div class="modal-content">
+    <div>
+        <div class="modal-header">
+            <h5 class="modal-title">{{ dish.title }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="display: grid;">
+            <p>Ингридиенты:</p>
+            {% for ing in ingredients %}
+            <p onclick="remove_ing(this)" name="remove_ingredient">{{ ing.title }}</p>
+            {% endfor %}
+        </div>
+        <div class="modal-footer">
+            <form method="post" action="{% url 'cart_add' dish.id %}">
+                {% csrf_token %}
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                <button id="dish_id" type="button" onclick="PostForm({{ dish.id }})" class="btn btn-primary">Добавить в корзину</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block Title%}Profile{% endblock Title%}
+
+{% block content%}
+<div class="container mt-5">
+    <div class="row g-5">
+        <div>
+            {% if user.is_authenticated %}
+            <h1>Ваша скидка</h1>
+            <p>
+                Скидка = {{ user.profile.get_discount }}%
+            </p>
+            <h1>Заказы</h1>
+            <div>
+                {% for order in user.orders.all|dictsortreversed:'created_date' %}
+                <div class="card-header">
+                    <h5>Заказ № <strong>{{ order.number }}</strong> ({% if order.paid %}Оплачен{% else %}Не
+                        оплачен{% endif %})</h5>
+                    <div class="card-body">
+                        {% for oi in order.items.all %}
+                        <p>{{ oi.dish.title }}</p>
+                        {% endfor %}
+                        {% if not order.paid %}
+                        <button class="btn-dark" type="button" onclick="location.href = '{% url 'pay' order.number %}'">
+                            Оплатить
+                        </button>
+                        {% endif %}
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>Please login to see this page.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content%}

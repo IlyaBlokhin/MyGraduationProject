@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block Title %}
+My Site
+{% endblock Title %}
+
+
+{% block Menu %}
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
+       data-bs-toggle="dropdown" aria-expanded="false">
+        Меню
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+        {% for category in categories %}
+        <li>
+
+            <a class="dropdown-item" href="#{{ category.title|capfirst }}">{{ category.title|capfirst }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</li>
+{% endblock Menu %}
+
+{% block content %}
+
+<div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+
+    <div class="carousel-indicators">
+        {% for el in deals_count %}
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{ el }}" class="active"
+                aria-current="true"
+                aria-label="Slide {{ el }}"></button>
+        {% endfor %}
+    </div>
+
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <svg class="bd-placeholder-img" width="100%" height="100%"
+                 aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"
+                 style="background-image: url('{{ first_deal.image.url }}'); background-position: center; background-size: cover;">
+            </svg>
+
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1 style="text-shadow: #166928 1px 0 10px;">{{ first_deal.title }}</h1>
+                    <p style="text-shadow: #166928 1px 0 10px;">{{ first_deal.sub_title }}</p>
+                </div>
+            </div>
+        </div>
+        {% for deal in deals %}
+        <div class="carousel-item">
+            <svg class="bd-placeholder-img" width="100%" height="100%"
+                 aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"
+                 style="background-image: url('{{ deal.image.url }}') ;background-position: center;background-size: cover;">
+            </svg>
+
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1 style="text-shadow: #166928 1px 0 10px;">{{ deal.title }}</h1>
+                    <p style="text-shadow: #166928 1px 0 10px;">{{ deal.sub_title }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<div class="album py-5 bg-light">
+
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for category in categories %}
+            <h1 class="display-4 fw-normal text-center" style="width: -webkit-fill-available"
+                id="{{ category.title|capfirst }}">{{ category.title|capfirst }}</h1>
+            {% for dish in dishes %}
+            {% if dish.type == category%}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="bd-placeholder-img card-img-top"
+                         style="background-image: url('{{ dish.image.url }}'); background-position: center; width:100%; height:225px; background-color: #6c757d; background-size: cover;">
+                    </div>
+
+                    <div class="card-body">
+                        <h4>{{ dish.title }}</h4>
+                        <p class="card-text">{{ dish.description }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button onclick="loadDoc({{ dish.id }})" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#myModal" class="btn btn-sm btn-outline-secondary">Выбрать
+                                </button>
+                            </div>
+                            <small class="text-muted">{{ dish.price }} BYN</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}
+

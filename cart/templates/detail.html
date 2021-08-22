@@ -1,0 +1,50 @@
+<div class="modal-content">
+    <div>
+        <div class="modal-header">
+            <h5 class="modal-title">Your shopping cart</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="display: grid;">
+            <h3 style="text-align: center">Your shopping cart</h3>
+            <table class="table-active">
+                <thead>
+                <tr>
+                    <th class="table card-header">Dish</th>
+                    <th class="table card-header">Quantity</th>
+                    <th class="table card-header">Removed ingredients</th>
+                    <th class="table card-header">Remove</th>
+                    <th class="table card-header">Unit price</th>
+                    <th class="table card-header">Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in cart %}
+                    {% with dish=item.dish %}
+                    <tr>
+                        <td class="table card-body">{{ dish.title }}</td>
+                        <td class="table card-body">{{ item.quantity }}</td>
+                        <td class="table card-body">{{ item.remove_ingredients }}</td>
+                        <td class="table card-body"><a class="button" style="cursor: pointer" onclick="RemoveDish('{{ item.cart_id }}')">Remove</a></td>
+                        <td class="table card-body">{{ item.price }} BYN</td>
+                        <td class="table card-body">{{ item.total_price }} BYN</td>
+                    </tr>
+                    {% endwith %}
+                {% endfor %}
+
+                <tr class="total">
+                    <td class="table card-body">Total</td>
+                    <td colspan="4"></td>
+                    <td class="table card-body">{{ cart.get_total_price }} BYN</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <form method="get" action="{% url 'order' %}">
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Make order</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+

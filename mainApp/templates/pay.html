@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block Title%}
+Pay
+{% endblock Title%}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row g-5">
+        {% if order.paid %}
+        <h1 class="mt-10">Заказ №{{ order.number }} уже оплачен</h1>
+        {% else %}
+        <h1 class="mt-10">Заказ №{{ order.number }}</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me" name="paid">Paid
+                </label>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">PAID</button>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
