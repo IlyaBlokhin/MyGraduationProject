@@ -18,7 +18,10 @@ def home(request):
         if el.start_date.date() <= datetime.today().date() <= el.stop_date.date():
             current_deals.append(el)
     deals_count = range(len(current_deals))
-    first_deal = current_deals[0]
+        if current_deals:
+        first_deal = current_deals[0]
+    else:
+        first_deal = ''
     current_deals = all_deals[1::]
 
     return render(request, 'some_content.html', {'dishes': all_dishes, 'categories': all_categories, 'page_title': page_title, 'deals': current_deals, 'deals_count': deals_count, 'first_deal': first_deal})
